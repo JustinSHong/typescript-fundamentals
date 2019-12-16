@@ -45,4 +45,19 @@ mapDict(
 ); // output is now a dict of wrapped values
 
 // Array.prototype.reduce, but for Dict
-export function reduceDict() {}
+export function reduceDict<T, S>(
+    dict: Dict<T>,
+    reducer: (val: S, item: T, idx: number) => S,
+    initialVal: S
+) {
+    let val: S = initialVal;
+
+    Object.keys(dict).forEach((key, idx) => {
+        const item = dict[key];
+        if (typeof item !== "undefined") {
+            val = reducer(val, item, idx);
+        }
+    });
+
+    return val;
+}
